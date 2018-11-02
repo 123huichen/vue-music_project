@@ -20,5 +20,7 @@ function parmar(data) {
         let value = data[k] !== undefined ? data[k] : ''
         url += '&' + k + '=' + value
     }
+    //substring() 方法用于提取字符串中介于两个指定下标之间的字符。
+    //去除url头部的&
     return url ? url.substring(1) : ''
 }
