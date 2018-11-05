@@ -1,8 +1,7 @@
 <template>
     <div class="recommend">
-        <scroll class="recommend-content">
+        <scroll class="recommend-content" ref="scroll">
             <div>
-
                 <div class="slider-wrapper" v-if="recommends.length" ref="">
                     <slider>
                         <div v-for="item in recommends">
@@ -12,18 +11,17 @@
                         </div>
                     </slider>
                 </div>
-
                 <div class="recommend-list">
                     <h1 class="list-title">热门歌词推荐</h1>
                     <ul></ul>
                 </div>
-
             </div>
         </scroll>
     </div>
 </template>
 
 <script>
+import Slider from '../../base/slider/slider'
 import {getRecomm} from '../../api/recomm'
 import {ERR_OK} from '../../api/config'
 
@@ -45,6 +43,9 @@ export default {
                 }
             })
         }
+    },
+    components: {
+        Slider
     }
 }
 </script>
