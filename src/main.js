@@ -2,11 +2,18 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import './common/stylus/index.styl'
 import fastclick from 'fastclick'
+import VueLazyload from 'vue-lazyload'
+
+import './common/stylus/index.styl'
 
 Vue.config.productionTip = false
 fastclick.attach(document.body)
+
+Vue.use(VueLazyload, {
+  error: require('./common/image/default.png'), //错误图片替换路径
+  loading: require('./common/image/default.png'), //加载图片路径
+})
 
 /* eslint-disable no-new */
 new Vue({

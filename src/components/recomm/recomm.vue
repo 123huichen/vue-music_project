@@ -1,20 +1,33 @@
 <template>
     <div class="recommend">
-        <scroll class="recommend-content" ref="scroll">
+        <scroll class="recommend-content" ref="scroll" :data="discList">
             <div>
                 <div class="slider-wrapper" v-if="recommends.length" ref="">
                     <slider>
                         <div v-for="item in recommends">
                             <a :href="item.linkUrl">
-                                <img class="needsclick" :src="item.picUrl">
+                                <img @load="loadImage" class="needsclick" :src="item.picUrl">
                             </a>
                         </div>
                     </slider>
                 </div>
                 <div class="recommend-list">
                     <h1 class="list-title">热门歌词推荐</h1>
-                    <ul></ul>
+                    <ul>
+                        <li @click="selectItem(item)" class="item" v-for="item in discList">
+                            <div class="icon">
+                                <img class="icon" v-lazy="item.imgurl" />
+                            </div>
+                            <div class="text">
+                                <h2 class="name" v-html="item.creator.name"></h2>
+                                <p class="desc" v-html="item.dissname"></p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
+            </div>
+            <div class="loading-container" v-show="!discList.length">
+                <loading></loading>
             </div>
         </scroll>
     </div>
@@ -22,7 +35,9 @@
 
 <script>
 import Slider from '../../base/slider/slider'
-import {getRecomm} from '../../api/recomm'
+import Scroll from '../../base/scroll/scroll'
+import Loading from '../../base/loading/loading'
+import {getRecomm, getSongList} from '../../api/recomm'
 import {ERR_OK} from '../../api/config'
 
 export default {
@@ -34,6 +49,7 @@ export default {
     },
     created() {
         this.Get_Recommend()
+        this.Get_Songlist()
     },
     methods: {
         Get_Recommend() {
@@ -42,10 +58,29 @@ export default {
                     this.recommends = res.data.slider
                 }
             })
+        },
+        Get_Songlist() {
+            getSongList().then((res) => {
+                if (res.code === ERR_OK) {
+                    console.log(res.data.list)
+                    this.discList = res.data.list
+                }
+            })
+        },
+        selectItem(item) {
+            
+        },
+        loadImage() {
+            if (!this.cherload) {
+                this.$refs.scroll.refresh()
+                this.cherload = true
+            }
         }
     },
     components: {
-        Slider
+        Slider,
+        Scroll,
+        Loading
     }
 }
 </script>

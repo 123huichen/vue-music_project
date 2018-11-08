@@ -49,7 +49,7 @@ export default {
         //
         _setSliderWidth(isResize){
             this.children = this.$refs.sliderGroup.children
-            console.log('_setSliderWidth' + this.children.length)
+            //console.log('_setSliderWidth' + this.children.length)
             let width = 0
             let sliderWidth = this.$refs.slider.clientWidth
             for (let i = 0; i < this.children.length; i++) {
@@ -67,7 +67,7 @@ export default {
         },
         //
         _initSlider(){
-            console.log('_initSlider' + this.children.length)
+           // console.log('_initSlider' + this.children.length)
             this.slider = new BScroll(this.$refs.slider, {
                 scrollX: true,
                 scrollY: false,
@@ -78,7 +78,7 @@ export default {
                     speed: 400
                 }
             })
-            console.log('_initSlider' + this.children.length)
+            //console.log('_initSlider' + this.children.length)
             this.slider.on('scrollEnd', () => {
                 
                 let pageIndex = this.slider.getCurrentPage().pageX
@@ -93,7 +93,6 @@ export default {
             })
 
             this.slider.on('beforeScrollStart', () => {
-                console.log('_initSlider' + this.children.length)
                 if (this.autoPlay) {
                     clearTimeout(this.timer)
                 }
@@ -101,12 +100,10 @@ export default {
         },
         //
         _initDots() {
-            console.log('_initDots'+this.children.length)
-            this.dots = new Array(this.children.length)
+            this.dots = new Array(this.children.length - 2)
         },
         //
         _play() {
-            console.log('_play'+this.children.length)
             let pageIndex = this.currentPageIndex + 1
             if (this.loop) {
                 pageIndex += 1
