@@ -1,14 +1,14 @@
 <template>
-    <div class="singer" ref="">
-        <list-view ></list-view>
+    <div class="singer" ref="singer">
+        <list-view :data="singers" ref="list"></list-view>
     </div>
 </template>
 
 <script>
-import ListView from 'base/listview/listview'
+import ListView from '../../base/listview/listview'
 import {getSingerList} from '../../api/singer'
 import {ERR_OK} from '../../api/config'
-import Singer from 'common/js/singer'
+import Singer from '../../common/js/singer'
 
 export default {
     data() {
