@@ -1,10 +1,10 @@
 <template>
     <scroll class="listview" :data="data" ref="listview">
         <ul>
-            <li v-for="(group, index) in data" class="list-group" ref="listGroup" :data-index="index"  @touchstart="onShortouchstartlistul">
+            <li v-for="(group, index) in data" class="list-group" ref="listGroup" :data-index="index">
                 <h2 class="list-group-title">{{group.title}}</h2>
                 <ul>
-                    <li v-for="item in group.items" class="list-group-item">
+                    <li v-for="item in group.items" class="list-group-item" @click="singerDataList(item)">
                         <img class="avatar" v-lazy="item.avatar"/>
                         <span class="name">{{item.name}}</span>
                     </li>
@@ -77,12 +77,6 @@ export default {
             
             this._scrollTo(anchorIndex)
         },
-        onShortouchstartlistul(e) {
-            
-            const prefix = 'data-'
-            let anchorIndex = e.target.getAttribute(prefix + 'index')
-            console.log(anchorIndex)
-        },
         _calculateHeight() {
             this.listHeight = []
             const list = this.$refs.listGroup
@@ -105,6 +99,9 @@ export default {
             }
             this.scrollY = -this.listHeight[index]
             this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
+        },
+        singerDataList(item) {
+            this.$emit('showCityName', item)
         }
     },
     components: {

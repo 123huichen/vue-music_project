@@ -1,6 +1,6 @@
 <template>
     <div class="singer" ref="singer">
-        <list-view :data="singers" ref="list"></list-view>
+        <list-view :data="singers" ref="list" @showCityName="updateCity"></list-view>
         <router-view></router-view>
     </div>
 </template>
@@ -29,6 +29,12 @@ export default {
                 if (res.code === ERR_OK) {
                     this.singers = this._normalizeSinger(res.data.list)
                 }
+            })
+        },
+        updateCity(data){
+            console.log(data)
+            this.$router.push({
+                path: `/singer/${data.id}`
             })
         },
         _normalizeSinger(list) {
