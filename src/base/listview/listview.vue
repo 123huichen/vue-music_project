@@ -1,7 +1,7 @@
 <template>
     <scroll class="listview" :data="data" ref="listview">
         <ul>
-            <li v-for="group in data" class="list-group" ref="listGroup">
+            <li v-for="(group, index) in data" class="list-group" ref="listGroup" :data-index="index"  @touchstart="onShortouchstartlistul">
                 <h2 class="list-group-title">{{group.title}}</h2>
                 <ul>
                     <li v-for="item in group.items" class="list-group-item">
@@ -13,7 +13,7 @@
         </ul>
         <div class="list-shortcut" @touchstart="onShortouchstart" @touchmove.stop.prevent="onShortcutTouchMove">
             <ul>
-                <li v-for="(item, index) in shortcutList" :data-index="index" class="item">
+                <li v-for="(item, index) in shortcutList" :data-index="index" class="item" :class="[currentIndex == index ? 'current' : '']">
                     {{item}} 
                 </li>
             </ul>
@@ -45,6 +45,11 @@ export default {
             })
         }
     },
+    data(){
+        return {
+            currentIndex: 0,
+        }
+    },
     created() {
         this.touch = {}
         this.listHeight = []
@@ -58,7 +63,8 @@ export default {
             this.touch.y1 = firstTouch.pageY
             console.log(firstTouch.pageY)
             this.touch.anchorIndex = anchorIndex
-
+            this.currentIndex = anchorIndex
+            
             this._scrollTo(anchorIndex)
         },
         onShortcutTouchMove(e) {
@@ -67,8 +73,15 @@ export default {
             let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0
             //parseInt() 解析一个字符串，并返回一个整数。
             let anchorIndex = parseInt(this.touch.anchorIndex) + delta
+            this.currentIndex = anchorIndex
             
             this._scrollTo(anchorIndex)
+        },
+        onShortouchstartlistul(e) {
+            
+            const prefix = 'data-'
+            let anchorIndex = e.target.getAttribute(prefix + 'index')
+            console.log(anchorIndex)
         },
         _calculateHeight() {
             this.listHeight = []
