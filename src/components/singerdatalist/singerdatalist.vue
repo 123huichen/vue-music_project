@@ -1,12 +1,21 @@
 <template>
     <transition name="slide">
-        <div class="singer-datalist">格式</div>
+        <div class="singer-datalist"></div>
     </transition>  
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
-    
+    computed:{
+        ...mapGetters([
+            'singer'
+        ])
+    },
+    created(){
+        console.log(this.singer)
+    }
 }
 </script>
 
